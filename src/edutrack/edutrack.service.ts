@@ -2,15 +2,30 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEdutrackDto } from './dto/create-edutrack.dto';
 import { UpdateEdutrackDto } from './dto/update-edutrack.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Edutrack } from './entities/edutrack.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EdutrackService {
-  create(createEdutrackDto: CreateEdutrackDto) {
-    return 'This action adds a new edutrack';
+
+
+  constructor(
+    @InjectRepository(Edutrack)
+    private EduTrackRepository: Repository<Edutrack>
+
+  ){
+
+  }
+
+  async create(createEdutrackDto: CreateEdutrackDto) {
+    const user = this.EduTrackRepository.create(createEdutrackDto)
+    return await this.EduTrackRepository.save(user);
   }
 
   findAll() {
-    return `This action returns all edutrack`;
+    const users = this.EduTrackRepository.find()
+    return users;
   }
 
   findOne(id: number) {
