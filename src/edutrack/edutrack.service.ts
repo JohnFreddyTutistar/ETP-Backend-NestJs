@@ -4,7 +4,9 @@ import { CreateEdutrackDto } from './dto/create-edutrack.dto';
 import { UpdateEdutrackDto } from './dto/update-edutrack.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Edutrack } from './entities/edutrack.entity';
+import { Applicant } from './entities/applicants.entity';
 import { Repository } from 'typeorm';
+import { CreateApplicantDto } from './dto/create-applicant.dto';
 
 @Injectable()
 export class EdutrackService {
@@ -12,9 +14,19 @@ export class EdutrackService {
 
   constructor(
     @InjectRepository(Edutrack)
-    private EduTrackRepository: Repository<Edutrack>
+    private EduTrackRepository: Repository<Edutrack>,
+
+    @InjectRepository(Applicant)
+    private ApplicantRepository: Repository<Applicant>
 
   ){
+
+  }
+
+  async createNewApplicant(createApplicantDto: CreateApplicantDto ) {
+    const newUser = this.ApplicantRepository.create(createApplicantDto)
+
+    return await this.ApplicantRepository.save(newUser)
 
   }
 
@@ -36,13 +48,22 @@ export class EdutrackService {
 
   }
 
-  findAll() {
+  async findAllApplicants() {
+    const findApplicant = this.ApplicantRepository.find()
+    return await findApplicant
+  }
+
+  async findAll() {
     const users = this.EduTrackRepository.find()
-    return users;
+    return await users;
+  }
+
+  async findOneApplicant(id: number) {
+    return await this.ApplicantRepository.findBy({id})
   }
 
   async findOne(id: number) {
-    return this.EduTrackRepository.findBy({id})
+    return await this.EduTrackRepository.findBy({id})
   }
 
   update(id: number, updateEdutrackDto: UpdateEdutrackDto) {

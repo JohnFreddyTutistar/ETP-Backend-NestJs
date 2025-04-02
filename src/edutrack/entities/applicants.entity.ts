@@ -1,9 +1,9 @@
 import { Column, DeleteDateColumn, Entity, UpdateDateColumn } from "typeorm";
+import { identificationType } from "../Enum/identificationType.enum";
 
 @Entity()
-export class Edutrack {
+export class Applicant {
 
-    // @PrimaryGeneratedColumn()
     @Column({ primary: true, generated: true })
     id: number;
     
@@ -16,11 +16,17 @@ export class Edutrack {
     @Column()
     age: number
 
-    @Column()
-    password: string;
-
     @Column({ nullable: true })
     birthDate: Date
+
+    @Column({
+        type: 'enum',
+        enum: identificationType
+    })
+    identificationType: identificationType
+
+    @Column()
+    identificationNumber: number
 
     @DeleteDateColumn()
     deleteDateColumn?: Date
