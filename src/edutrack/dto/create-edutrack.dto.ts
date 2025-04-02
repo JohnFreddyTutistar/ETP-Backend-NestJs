@@ -1,4 +1,5 @@
-import { IsEmail, IsInt, IsNotEmpty, IsPositive, IsString, Min, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsDate, IsEmail, IsInt, IsNotEmpty, IsPositive, IsString, Min, MinLength } from "class-validator";
 
 export class CreateEdutrackDto {
 
@@ -13,6 +14,10 @@ export class CreateEdutrackDto {
     @IsPositive()
     @Min(15)
     age: number
+
+    @Type(() => Date)
+    @IsDate()
+    birthDate: Date
 
     @IsString()
     @IsNotEmpty()

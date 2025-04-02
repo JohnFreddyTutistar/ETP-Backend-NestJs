@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateEdutrackDto } from './dto/create-edutrack.dto';
 import { UpdateEdutrackDto } from './dto/update-edutrack.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,8 +19,21 @@ export class EdutrackService {
   }
 
   async create(createEdutrackDto: CreateEdutrackDto) {
-    const user = this.EduTrackRepository.create(createEdutrackDto)
-    return await this.EduTrackRepository.save(user);
+    
+    try {
+      const user = this.EduTrackRepository.create(createEdutrackDto)
+      
+      return await this.EduTrackRepository.save(user);
+
+    } catch (error) {
+        if(error.code === '23505'){
+          throw new BadRequestException('El correo ya esta registrado')
+        } else {
+          throw new InternalServerErrorException('Error al crear al usuario')
+        }
+
+    }
+
   }
 
   findAll() {
@@ -28,15 +41,15 @@ export class EdutrackService {
     return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} edutrack`;
+  async findOne(id: number) {
+    return this.EduTrackRepository.findBy({id})
   }
 
   update(id: number, updateEdutrackDto: UpdateEdutrackDto) {
     return `This action updates a #${id} edutrack`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} edutrack`;
+  async remove(id: number) {
+    return await this.EduTrackRepository.softDelete({ id })
   }
 }

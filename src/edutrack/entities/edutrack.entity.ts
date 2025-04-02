@@ -1,4 +1,4 @@
-import { Column, Entity } from "typeorm";
+import { Column, DeleteDateColumn, Entity } from "typeorm";
 
 @Entity()
 export class Edutrack {
@@ -10,7 +10,7 @@ export class Edutrack {
     @Column()
     name: string;
     
-    @Column()
+    @Column({ unique: true, nullable: true })
     email: string;
 
     @Column()
@@ -19,7 +19,10 @@ export class Edutrack {
     @Column()
     password: string;
 
-    @Column({nullable: true})
-    deleteDateColumn: Date
+    @Column({ nullable: true })
+    birthDate: Date
+
+    @DeleteDateColumn()
+    deleteDateColumn?: Date
 
 }
