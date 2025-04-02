@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateEdutrackDto } from './dto/create-edutrack.dto';
 import { UpdateEdutrackDto } from './dto/update-edutrack.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import { Edutrack } from './entities/edutrack.entity';
 import { Applicant } from './entities/applicants.entity';
 import { Repository } from 'typeorm';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
+import { CreateCallHistoryDto } from './dto/create-call-history.dto';
+import { CallHistory } from './entities/call-history.entity';
 
 @Injectable()
 export class EdutrackService {
@@ -17,7 +19,10 @@ export class EdutrackService {
     private EduTrackRepository: Repository<Edutrack>,
 
     @InjectRepository(Applicant)
-    private ApplicantRepository: Repository<Applicant>
+    private ApplicantRepository: Repository<Applicant>,
+
+    @InjectRepository(CallHistory)
+    private CallHistoryRepository: Repository<CallHistory>
 
   ){
 
@@ -28,6 +33,20 @@ export class EdutrackService {
 
     return await this.ApplicantRepository.save(newUser)
 
+  }
+
+  async createNewHistorial(applicantId: number, createCallHistory: CreateCallHistoryDto) {
+    const applicant = await this.ApplicantRepository.findOne({where: {id: applicantId}});
+
+    if(!applicant){
+      throw new NotFoundException('Aspirante no encontrado')
+    }
+
+    const history = this.CallHistoryRepository.create({
+      ...createCallHistory,
+    })
+
+    return this.CallHistoryRepository.save(history)
   }
 
   async create(createEdutrackDto: CreateEdutrackDto) {

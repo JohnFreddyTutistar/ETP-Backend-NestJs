@@ -1,5 +1,6 @@
-import { Column, DeleteDateColumn, Entity, UpdateDateColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
 import { identificationType } from "../Enum/identificationType.enum";
+import { CallHistory } from "./call-history.entity";
 
 @Entity()
 export class Applicant {
@@ -33,5 +34,10 @@ export class Applicant {
 
     @UpdateDateColumn()
     updateDateColumn?: Date
+
+    @OneToMany(() => CallHistory, history => history.applicantId, {
+        cascade: true
+    })
+    callHistory: CallHistory[]
 
 }

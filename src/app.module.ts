@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EdutrackModule } from './edutrack/edutrack.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'newdb',
       autoLoadEntities: true,
       synchronize: true
-    })
+    }),
+    UsersModule
   ],
   controllers: [],
   providers: [],
