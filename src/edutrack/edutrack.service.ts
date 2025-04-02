@@ -46,7 +46,7 @@ export class EdutrackService {
   }
 
   update(id: number, updateEdutrackDto: UpdateEdutrackDto) {
-    return `This action updates a #${id} edutrack`;
+    return this.EduTrackRepository.update(id, updateEdutrackDto);
   }
 
   async remove(id: number) {
