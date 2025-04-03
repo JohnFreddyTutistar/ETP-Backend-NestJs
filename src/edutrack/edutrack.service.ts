@@ -35,18 +35,30 @@ export class EdutrackService {
 
   }
 
-  async createNewHistorial(applicantId: number, createCallHistory: CreateCallHistoryDto) {
-    const applicant = await this.ApplicantRepository.findOne({where: {id: applicantId}});
+  async createNewHistory(createCallHistoryDto: CreateCallHistoryDto, applicantId: number): Promise<CallHistory>{
 
+    // Busca si el aspirante existe
+    const applicant = await this.ApplicantRepository.findOne({where: {id: applicantId}})
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     if(!applicant){
-      throw new NotFoundException('Aspirante no encontrado')
+      throw new NotFoundException('Applicant not found')
     }
 
-    const history = this.CallHistoryRepository.create({
-      ...createCallHistory,
-    })
+    const newCallHistory = this.CallHistoryRepository.create({
+      ...createCallHistoryDto,
+    });
 
-    return this.CallHistoryRepository.save(history)
+    newCallHistory.applicantId = applicant;
+
+    return await this.CallHistoryRepository.save(newCallHistory)
+    // const savedHistory = await this.CallHistoryRepository.save(newCallHistory); // analizando esto...
+
+    // // Agregar a la lista de historiales del aspirante
+    // applicant.callHistory.push(savedHistory);
+    // await this.ApplicantRepository.save(applicant);
+
+    // return savedHistory;
   }
 
   async create(createEdutrackDto: CreateEdutrackDto) {
@@ -67,9 +79,16 @@ export class EdutrackService {
 
   }
 
-  async findAllApplicants() {
-    const findApplicant = this.ApplicantRepository.find()
-    return await findApplicant
+  async findAllApplicants(): Promise<Applicant[]> {
+    const applicants = await this.ApplicantRepository.find({
+      relations: ['callHistory'], // cargamos los historiales
+    });
+
+    // Asegura que callHistory no sea undefined
+    return applicants.map(applicant => ({
+      ...applicant,
+      callHistory: applicant.callHistory ?? []   
+    }));
   }
 
   async findAll() {

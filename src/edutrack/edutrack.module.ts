@@ -6,6 +6,7 @@ import { Edutrack } from './entities/edutrack.entity';
 import { Applicant } from './entities/applicants.entity';
 import { ApplicantController } from './applicant.controller';
 import { CallHistory } from './entities/call-history.entity';
+import { CallHistoryController } from './callHistory.controller';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { CallHistory } from './entities/call-history.entity';
       ])],
   controllers: [
     EdutrackController,
-    ApplicantController
+    ApplicantController,
+    CallHistoryController
   ],
   providers: [EdutrackService],
 })

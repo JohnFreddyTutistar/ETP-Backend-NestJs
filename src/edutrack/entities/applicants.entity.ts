@@ -36,7 +36,7 @@ export class Applicant {
     updateDateColumn?: Date
 
     @OneToMany(() => CallHistory, history => history.applicantId, {
-        cascade: true
+        cascade: true, nullable: true
     })
     callHistory: CallHistory[]
 
