@@ -1,6 +1,7 @@
-import { Column, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
 import { identificationType } from "../Enum/identificationType.enum";
 import { CallHistory } from "./call-history.entity";
+import { gender } from "../Enum/gender.enum";
 
 @Entity()
 export class Applicant {
@@ -9,12 +10,21 @@ export class Applicant {
     id: number;
     
     @Column()
-    name: string;
-    
-    @Column({ unique: true, nullable: true })
-    email: string;
+    firstName: string;
 
     @Column()
+    secondName?: string;
+
+    @Column()
+    firstLastName: string;
+
+    @Column()
+    secondLastName?: string;
+    
+    @Column({ unique: true, nullable: false })
+    email: string;
+
+    @Column({ type: 'int', nullable: false })
     age: number
 
     @Column({ nullable: true })
@@ -26,14 +36,35 @@ export class Applicant {
     })
     identificationType: identificationType
 
+    @Column({ unique: true })
+    identificationNumber: string
+
+    @Column({ nullable: true })
+    address?: string;
+
+    @Column({ nullable: false })
+    phoneNumber: string
+
+    @Column({
+        type: 'enum',
+        enum: gender
+    })
+    gender: gender
+
     @Column()
-    identificationNumber: number
+    status: string
+
+    @CreateDateColumn()
+    createAt?: Date
 
     @DeleteDateColumn()
-    deleteDateColumn?: Date
+    deleteAt?: Date
 
     @UpdateDateColumn()
-    updateDateColumn?: Date
+    updateAt?: Date
+
+    @Column({ default: true })
+    isActive: boolean;
 
     @OneToMany(() => CallHistory, history => history.applicantId, {
         cascade: true, nullable: true

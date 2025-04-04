@@ -1,18 +1,30 @@
-import { IsString, MinLength, IsEmail, IsInt, IsPositive, Min, IsDate, IsEnum } from "class-validator"
+import { IsString, MinLength, IsEmail, IsInt, IsPositive, IsDate, IsEnum, IsNotEmpty } from "class-validator"
 import { Type } from "class-transformer"
 import { identificationType } from "../Enum/identificationType.enum"
+import { gender } from "../Enum/gender.enum";
 
 export class CreateApplicantDto {
     @IsString()
     @MinLength(3)
-    name: string
+    @IsNotEmpty()
+    firstName: string;
+
+    @IsString()
+    secondName?: string;
+
+    @IsString()
+    @MinLength(3)
+    @IsNotEmpty()
+    firstLastName: string;
+
+    @IsString()
+    secondLastName?: string;
 
     @IsEmail()
     email: string
 
     @IsInt()
     @IsPositive()
-    @Min(15)
     age: number
 
     @Type(() => Date)
@@ -22,7 +34,18 @@ export class CreateApplicantDto {
     @IsEnum(identificationType)
     identificationType: identificationType
 
-    @IsInt()
-    @IsPositive()
-    identificationNumber: number
+    @IsString()
+    identificationNumber: string
+
+    @IsString()
+    address?: string
+
+    @IsString()
+    phoneNumber: string
+
+    @IsEnum(gender)
+    gender: gender
+
+    @IsString()
+    status: string
 }

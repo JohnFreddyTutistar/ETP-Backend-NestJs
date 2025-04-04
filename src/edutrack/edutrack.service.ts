@@ -69,6 +69,7 @@ export class EdutrackService {
       return await this.EduTrackRepository.save(user);
 
     } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if(error.code === '23505'){
           throw new BadRequestException('El correo ya esta registrado')
         } else {
@@ -110,5 +111,9 @@ export class EdutrackService {
 
   async remove(id: number) {
     return await this.EduTrackRepository.softDelete({ id })
+  }
+
+  async deleteUser(id: number) {
+    return await this.ApplicantRepository.softDelete({ id });
   }
 }

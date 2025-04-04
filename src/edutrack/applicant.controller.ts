@@ -34,6 +34,6 @@ export class ApplicantController {
 
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return this.edutrackService.remove(id);
+    return this.edutrackService.deleteUser(id);
   }
 }
