@@ -32,8 +32,8 @@ export class User {
     @Column({ nullable: false })
     phoneNumber: string;
 
-    @Column()
-    address?: string;
+    // @Column({ nullable: true })
+    // address?: string;
 
     @Column()
     possition?: string;

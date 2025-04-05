@@ -35,8 +35,8 @@ export class CreateUserDto {
     @IsEnum(Faculty)
     faculty: Faculty
 
-    @IsString()
-    address?: string
+    // @IsString()
+    // address?: string
 
     @IsString()
     phoneNumber: string

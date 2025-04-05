@@ -24,9 +24,6 @@ export class Applicant {
     @Column({ unique: true, nullable: false })
     email: string;
 
-    @Column({ type: 'int', nullable: false })
-    age: number
-
     @Column({ nullable: true })
     birthDate: Date
 
