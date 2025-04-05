@@ -1,11 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { 
+       password,
+       ...restData
+      } = createUserDto;
+
+    // hasheamos la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = this.userRepository.create({
+      ...restData,
+      password: hashedPassword,
+    })
+
+    return this.userRepository.save(newUser);
   }
 
   findAll() {
@@ -16,6 +39,7 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
