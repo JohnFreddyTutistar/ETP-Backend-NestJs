@@ -11,16 +11,16 @@ export class CallHistory {
     date: Date
 
     @Column ({type: "numeric", nullable: true})
-    duration: number
+    duration?: number
 
-    @Column ({type: "varchar", unique: false, length: 50, nullable: true})
+    @Column ({type: "varchar", unique: false, length: 50})
     results: string
 
     @Column ({type: "varchar", unique: false, length: 50, nullable: true})
-    notes: string
+    observation?: string
 
     @Column ({type: "varchar", unique: false, length: 50, nullable: true})
-    tracing: string
+    tracing?: string
 
     @ManyToOne(() => Applicant, applicant => applicant.callHistory, {
         onDelete: 'CASCADE'

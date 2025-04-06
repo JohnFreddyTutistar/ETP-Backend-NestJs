@@ -64,7 +64,7 @@ export class Applicant {
     isActive: boolean;
 
     @OneToMany(() => CallHistory, history => history.applicantId, {
-        cascade: true, nullable: true
+        cascade: false, nullable: true
     })
     callHistory: CallHistory[]
 

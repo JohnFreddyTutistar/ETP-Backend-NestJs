@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDate, IsInt, IsPositive, IsString } from "class-validator";
+import { IsDate, IsInt, IsString } from "class-validator";
 
 export class CreateCallHistoryDto {
     
@@ -8,16 +8,15 @@ export class CreateCallHistoryDto {
     date: Date;
 
     @IsInt()
-    @IsPositive()
-    duration: number;
+    duration?: number; 
 
     @IsString()
-    results: string;
+    results: string; 
 
     @IsString()
-    notes: string;
+    observation?: string; 
 
     @IsString()
-    tracing: string;
+    tracing?: string; 
 
 }
