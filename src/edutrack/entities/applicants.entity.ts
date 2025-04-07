@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { identificationType } from "../Enum/identificationType.enum";
 import { CallHistory } from "./call-history.entity";
 import { gender } from "../Enum/gender.enum";
@@ -6,7 +6,7 @@ import { gender } from "../Enum/gender.enum";
 @Entity()
 export class Applicant {
 
-    @Column({ primary: true, generated: true })
+    @PrimaryGeneratedColumn('uuid')
     id: number;
     
     @Column()
