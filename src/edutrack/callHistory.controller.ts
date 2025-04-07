@@ -1,4 +1,4 @@
-import { Controller, Post, Param, Body, ParseIntPipe } from "@nestjs/common";
+import { Controller, Post, Param, Body } from "@nestjs/common";
 import { EdutrackService } from "./edutrack.service";
 import { CreateCallHistoryDto } from "./dto/create-call-history.dto";
 import { CallHistory } from "./entities/call-history.entity";
@@ -10,7 +10,7 @@ export class CallHistoryController {
 
     @Post(':applicantId')
     async create(
-        @Param('applicantId', ParseIntPipe) applicantId: number,
+        @Param('applicantId') applicantId: string,
         @Body() createCallHistoryDto: CreateCallHistoryDto
     ): Promise<CallHistory> {
         return this.edutrackService.createNewHistory(createCallHistoryDto, applicantId)

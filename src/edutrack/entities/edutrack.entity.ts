@@ -1,11 +1,11 @@
-import { Column, DeleteDateColumn, Entity, UpdateDateColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Edutrack {
 
     // @PrimaryGeneratedColumn()
-    @Column({ primary: true, generated: true })
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
     
     @Column()
     name: string;

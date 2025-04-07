@@ -18,17 +18,17 @@ export class EdutrackController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: string) {
     return this.edutrackService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateEdutrackDto: UpdateEdutrackDto) {
+  update(@Param('id') id: string, @Body() updateEdutrackDto: UpdateEdutrackDto) {
     return this.edutrackService.update(id, updateEdutrackDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     return this.edutrackService.remove(id);
   }
 }

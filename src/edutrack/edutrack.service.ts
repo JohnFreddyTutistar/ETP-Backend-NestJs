@@ -35,7 +35,7 @@ export class EdutrackService {
 
   }
 
-  async createNewHistory(createCallHistoryDto: CreateCallHistoryDto, applicantId: number): Promise<CallHistory>{
+  async createNewHistory(createCallHistoryDto: CreateCallHistoryDto, applicantId: string): Promise<CallHistory>{
 
     // Busca si el aspirante existe
     const applicant = await this.ApplicantRepository.findOne({where: {id: applicantId}})
@@ -97,23 +97,23 @@ export class EdutrackService {
     return await users;
   }
 
-  async findOneApplicant(id: number) {
+  async findOneApplicant(id: string) {
     return await this.ApplicantRepository.findBy({id})
   }
 
-  async findOne(id: number) {
-    return await this.EduTrackRepository.findBy({id})
+  async findOne(id: string) {
+    return await this.EduTrackRepository.findBy({ id })
   }
 
-  update(id: number, updateEdutrackDto: UpdateEdutrackDto) {
+  update(id: string, updateEdutrackDto: UpdateEdutrackDto) {
     return this.EduTrackRepository.update(id, updateEdutrackDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.EduTrackRepository.softDelete({ id })
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     return await this.ApplicantRepository.softDelete({ id });
   }
 }

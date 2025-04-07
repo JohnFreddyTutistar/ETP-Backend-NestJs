@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Applicant } from "./applicants.entity";
 
 @Entity()
 export class CallHistory {
 
-    @Column ({primary: true, generated: true})
-    id: number
+    @PrimaryGeneratedColumn('uuid')
+    id: string
 
     @Column ({type: "date"})
     date: Date
