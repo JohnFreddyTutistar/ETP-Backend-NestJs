@@ -1,4 +1,4 @@
-export enum academicSchedule {
+export enum EAcademicSchedule {
   DAYTIME = 'DIURNA', // Schedule daytime
   EVENING = 'NOCTURNA', // Schedule nocturna
   MIXED = 'MIXTA', // Schedule mixed
