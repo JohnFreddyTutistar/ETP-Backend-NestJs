@@ -81,7 +81,7 @@ export class EdutrackService {
 
   async findAllApplicants(): Promise<Applicant[]> {
     const applicants = await this.ApplicantRepository.find({
-      relations: ['callHistory'], // cargamos los historiales
+      relations: ['callHistory', 'inscriptions.program'], // cargamos los historiales
     });
 
     // Asegura que callHistory no sea undefined

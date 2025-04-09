@@ -2,29 +2,28 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EAcademicSchedule } from '../Enums/academic-schedule.enum';
 import { Inscription } from 'src/inscription/entities/inscription.entity';
+import { Program } from 'src/program/entities/program.entity';
 
 @Entity()
 export class AcademicSchedule {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({
-    type: 'enum',
-    enum: EAcademicSchedule,
-  })
-  name: EAcademicSchedule;
-
   @Column()
+  name: string;
+
+  @Column({ nullable: true })
   description?: string;
 
-  @Column()
-  active: boolean;
+  @Column({ default: true })
+  isActive: boolean; // true or false, default is true
 
   @CreateDateColumn()
   crateAt: Date;
@@ -34,4 +33,9 @@ export class AcademicSchedule {
 
   @OneToMany(() => Inscription, (inscription) => inscription.academicSchedule)
   inscription: Inscription[];
+
+  //Pendiente a enlazar a program
+  @ManyToMany(() => Program, (program) => program.academicSchedule)
+  @JoinTable()
+  program: Program[];
 }

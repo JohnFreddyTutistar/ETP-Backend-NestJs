@@ -9,18 +9,8 @@ import { CallHistory } from './entities/call-history.entity';
 import { CallHistoryController } from './callHistory.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature(
-      [
-        Edutrack, 
-        Applicant, 
-        CallHistory,
-      ])],
-  controllers: [
-    EdutrackController,
-    ApplicantController,
-    CallHistoryController
-  ],
+  imports: [TypeOrmModule.forFeature([Edutrack, Applicant, CallHistory])],
+  controllers: [EdutrackController, ApplicantController, CallHistoryController],
   providers: [EdutrackService],
 })
 export class EdutrackModule {}

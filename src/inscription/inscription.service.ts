@@ -1,15 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInscriptionDto } from './dto/create-inscription.dto';
 import { UpdateInscriptionDto } from './dto/update-inscription.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Inscription } from './entities/inscription.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class InscriptionService {
-  create(createInscriptionDto: CreateInscriptionDto) {
-    return 'This action adds a new inscription';
+  constructor(
+    @InjectRepository(Inscription)
+    private inscriptionRepository: Repository<Inscription>,
+  ) {}
+
+  async create(createInscriptionDto: CreateInscriptionDto) {
+    const newInscription =
+      this.inscriptionRepository.create(createInscriptionDto);
+    return await this.inscriptionRepository.save(newInscription);
   }
 
-  findAll() {
-    return `This action returns all inscription`;
+  async findAll(): Promise<Inscription[]> {
+    const inscriptions = await this.inscriptionRepository.find({
+      relations: ['program'],
+    });
+    return inscriptions;
   }
 
   findOne(id: number) {

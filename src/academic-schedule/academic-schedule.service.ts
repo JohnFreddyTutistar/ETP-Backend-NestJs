@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAcademicScheduleDto } from './dto/create-academic-schedule.dto';
 import { UpdateAcademicScheduleDto } from './dto/update-academic-schedule.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AcademicSchedule } from './entities/academic-schedule.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AcademicScheduleService {
-  create(createAcademicScheduleDto: CreateAcademicScheduleDto) {
-    return 'This action adds a new academicSchedule';
+  constructor(
+    @InjectRepository(AcademicSchedule)
+    private academicScheduleRepository: Repository<AcademicSchedule>,
+  ) {}
+
+  async create(createAcademicScheduleDto: CreateAcademicScheduleDto) {
+    const newAcademicSchedule = this.academicScheduleRepository.create(
+      createAcademicScheduleDto,
+    );
+    return await this.academicScheduleRepository.save(newAcademicSchedule);
   }
 
   findAll() {

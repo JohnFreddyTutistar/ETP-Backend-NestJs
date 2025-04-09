@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { identificationType } from '../Enum/identificationType.enum';
 import { CallHistory } from './call-history.entity';
-import { gender } from '../Enum/gender.enum';
+import { EGender } from '../Enum/gender.enum';
 import { Inscription } from 'src/inscription/entities/inscription.entity';
 
 @Entity()
@@ -53,12 +53,9 @@ export class Applicant {
 
   @Column({
     type: 'enum',
-    enum: gender,
+    enum: EGender,
   })
-  gender: gender;
-
-  @Column()
-  status: string;
+  gender: EGender;
 
   @CreateDateColumn()
   createAt?: Date;
@@ -78,6 +75,9 @@ export class Applicant {
   })
   callHistory: CallHistory[];
 
-  @ManyToMany(() => Inscription, (inscription) => inscription.applicants)
+  @ManyToMany(() => Inscription, (inscription) => inscription.applicants, {
+    cascade: false,
+    nullable: true,
+  })
   inscriptions: Inscription[];
 }

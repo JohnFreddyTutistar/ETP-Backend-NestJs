@@ -1,3 +1,4 @@
+import { AcademicSchedule } from 'src/academic-schedule/entities/academic-schedule.entity';
 import { Inscription } from 'src/inscription/entities/inscription.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,4 +46,11 @@ export class Program {
     nullable: true,
   })
   inscription: Inscription[];
+
+  //pendiente enlazar a academicSchedule
+  @ManyToMany(
+    () => AcademicSchedule,
+    (academicSchedule) => academicSchedule.program,
+  )
+  academicSchedule: AcademicSchedule[];
 }

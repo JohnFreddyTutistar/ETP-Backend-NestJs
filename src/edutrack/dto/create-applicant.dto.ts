@@ -1,47 +1,51 @@
-import { IsString, MinLength, IsEmail, IsDate, IsEnum, IsNotEmpty } from "class-validator"
-import { Type } from "class-transformer"
-import { identificationType } from "../Enum/identificationType.enum"
-import { gender } from "../Enum/gender.enum";
+import {
+  IsString,
+  MinLength,
+  IsEmail,
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { identificationType } from '../Enum/identificationType.enum';
+import { EGender } from '../Enum/gender.enum';
 
 export class CreateApplicantDto {
-    @IsString()
-    @MinLength(3)
-    @IsNotEmpty()
-    firstName: string;
+  @IsString()
+  @MinLength(3)
+  @IsNotEmpty()
+  firstName: string;
 
-    @IsString()
-    secondName?: string;
+  @IsString()
+  secondName?: string;
 
-    @IsString()
-    @MinLength(3)
-    @IsNotEmpty()
-    firstLastName: string;
+  @IsString()
+  @MinLength(3)
+  @IsNotEmpty()
+  firstLastName: string;
 
-    @IsString()
-    secondLastName?: string;
+  @IsString()
+  secondLastName?: string;
 
-    @IsEmail()
-    email: string
+  @IsEmail()
+  email: string;
 
-    @Type(() => Date)
-    @IsDate()
-    birthDate: Date
+  @Type(() => Date)
+  @IsDate()
+  birthDate: Date;
 
-    @IsEnum(identificationType)
-    identificationType: identificationType
+  @IsEnum(identificationType)
+  identificationType: identificationType;
 
-    @IsString()
-    identificationNumber: string
+  @IsString()
+  identificationNumber: string;
 
-    @IsString()
-    address?: string
+  @IsString()
+  address?: string;
 
-    @IsString()
-    phoneNumber: string
+  @IsString()
+  phoneNumber: string;
 
-    @IsEnum(gender)
-    gender: gender
-
-    @IsString()
-    status: string
+  @IsEnum(EGender)
+  gender: EGender;
 }

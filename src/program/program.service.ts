@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Program } from './entities/program.entity';
 
 @Injectable()
 export class ProgramService {
-  create(createProgramDto: CreateProgramDto) {
-    return 'This action adds a new program';
+  constructor(
+    @InjectRepository(Program)
+    private programRepository: Repository<Program>,
+  ) {}
+
+  async create(createProgramDto: CreateProgramDto) {
+    const newProgram = this.programRepository.create(createProgramDto);
+    return await this.programRepository.save(newProgram);
   }
 
   findAll() {
@@ -16,6 +25,7 @@ export class ProgramService {
     return `This action returns a #${id} program`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateProgramDto: UpdateProgramDto) {
     return `This action updates a #${id} program`;
   }
