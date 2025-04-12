@@ -40,9 +40,6 @@ export class User {
   @Column({ nullable: false })
   phoneNumber: string;
 
-  // @Column({ nullable: true })
-  // address?: string;
-
   @Column()
   possition?: string;
 

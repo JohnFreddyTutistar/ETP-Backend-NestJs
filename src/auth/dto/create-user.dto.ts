@@ -1,16 +1,16 @@
+import { Type } from 'class-transformer';
 import {
+  IsDate,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsString,
   MinLength,
-  IsDate,
-  IsEnum,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { Rol } from '../enums/rol.enum';
-import { Faculty } from '../enums/faculty.enum';
+import { Faculty } from 'src/users/enums/faculty.enum';
+import { Rol } from 'src/users/enums/rol.enum';
 
-export class CreateUserDto {
+export class CreateNewUserDto {
   @IsString()
   @MinLength(3)
   @IsNotEmpty()
