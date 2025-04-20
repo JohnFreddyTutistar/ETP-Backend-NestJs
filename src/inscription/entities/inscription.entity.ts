@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -24,6 +25,9 @@ export class Inscription {
 
   // @Column({ nullable: true })
   // status: string;
+
+  @CreateDateColumn()
+  createdAt: Date
 
   @ManyToOne(() => Program, (program) => program.inscription)
   program: Program;
