@@ -33,7 +33,7 @@ export class Applicant {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'date', nullable: true })
   birthDate: Date;
 
   @Column({
