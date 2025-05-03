@@ -52,8 +52,8 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return await this.userRepository.findOneBy({ id });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
