@@ -32,7 +32,7 @@ export class CreateApplicantDto {
 
   @Type(() => Date)
   @IsDate()
-  birthDate: Date;
+  birthDate?: Date;
 
   @IsEnum(identificationType)
   identificationType: identificationType;

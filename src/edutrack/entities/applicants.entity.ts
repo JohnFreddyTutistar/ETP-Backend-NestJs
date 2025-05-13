@@ -34,7 +34,7 @@ export class Applicant {
   email: string;
 
   @Column({ type: 'date', nullable: true })
-  birthDate: Date;
+  birthDate?: Date;
 
   @Column({
     type: 'enum',
