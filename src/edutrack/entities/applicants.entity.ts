@@ -12,6 +12,7 @@ import { identificationType } from '../Enum/identificationType.enum';
 import { CallHistory } from './call-history.entity';
 import { EGender } from '../Enum/gender.enum';
 import { Inscription } from 'src/inscription/entities/inscription.entity';
+import { Evaluation } from './evaluation.entity';
 
 @Entity()
 export class Applicant {
@@ -34,7 +35,7 @@ export class Applicant {
   email: string;
 
   @Column({ type: 'date', nullable: true })
-  birthDate: Date;
+  birthDate?: Date;
 
   @Column({
     type: 'enum',
@@ -80,4 +81,7 @@ export class Applicant {
     nullable: true,
   })
   inscriptions: Inscription[];
+
+  @OneToMany(() => Evaluation, (evaluation) => evaluation.applicant)
+  evaluation: Evaluation[]
 }

@@ -14,6 +14,8 @@ import { Repository } from 'typeorm';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
 import { CreateCallHistoryDto } from './dto/create-call-history.dto';
 import { CallHistory } from './entities/call-history.entity';
+import { Evaluation } from './entities/evaluation.entity';
+import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 
 @Injectable()
 export class EdutrackService {
@@ -26,6 +28,9 @@ export class EdutrackService {
 
     @InjectRepository(CallHistory)
     private CallHistoryRepository: Repository<CallHistory>,
+
+    @InjectRepository(Evaluation)
+    private EvaluationRespository: Repository<Evaluation>
   ) {}
 
   async createNewApplicant(createApplicantDto: CreateApplicantDto) {
@@ -33,6 +38,41 @@ export class EdutrackService {
 
     return await this.ApplicantRepository.save(newUser);
   }
+
+  async createEvaluation(dto: CreateEvaluationDto): Promise<Evaluation> {
+    const applicant = await this.ApplicantRepository.findOne({where: {id: dto.applicantId}})
+
+    if(!applicant){
+      throw new NotFoundException('Aspirante no encontrado')
+    }
+
+    // calculos
+    const interviewScore = (dto.interview * 5) / 100;
+    const weightedInterview = parseFloat((interviewScore * 0.6).toFixed(2));
+
+    const averageTest = (dto.math * 0.5) + (dto.readWrite * 0.5);
+    const weightedTest = parseFloat((averageTest * 0.4).toFixed(2));
+
+    const finalNote = parseFloat((weightedInterview + weightedTest).toFixed(2));
+    const status = finalNote >= 3.2 ? 'APROBADO' : 'RECHAZADO';
+
+    // Crear entidad
+    const evaluation = this.EvaluationRespository.create({
+      interview: dto.interview,
+      math: dto.math,
+      readWrite: dto.readWrite,
+      interviewScore,
+      averageTest,
+      weightedInterview,
+      weightedTest,
+      finalNote,
+      status,
+      applicant,
+    });
+
+    return await this.EvaluationRespository.save(evaluation)
+  }
+
 
   async createNewHistory(
     createCallHistoryDto: CreateCallHistoryDto,
@@ -81,13 +121,15 @@ export class EdutrackService {
 
   async findAllApplicants(): Promise<Applicant[]> {
     const applicants = await this.ApplicantRepository.find({
-      relations: ['callHistory', 'inscriptions.program'], // cargamos los historiales
+      relations: ['callHistory', 'inscriptions.program', 'evaluation'], // cargamos los historiales
     });
 
     // Asegura que callHistory no sea undefined
     return applicants.map((applicant) => ({
       ...applicant,
       callHistory: applicant.callHistory ?? [],
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      // evaluationStatus: applicant.evaluation
     }));
   }
 
