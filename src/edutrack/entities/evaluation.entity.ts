@@ -30,6 +30,9 @@ export class Evaluation {
   @Column('float')
   finalNote: number;
 
+  @Column('int')
+  totalAdmit: number
+
   @Column({ default: 'EN REVISIÓN' })
   status: string;
 

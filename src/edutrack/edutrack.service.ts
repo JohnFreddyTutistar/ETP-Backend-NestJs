@@ -54,6 +54,7 @@ export class EdutrackService {
     const weightedTest = parseFloat((averageTest * 0.4).toFixed(2));
 
     const finalNote = parseFloat((weightedInterview + weightedTest).toFixed(2));
+    const totalAdmit = (finalNote * 100) / 5;
     const status = finalNote >= 3.2 ? 'APROBADO' : 'RECHAZADO';
 
     // Crear entidad
@@ -66,6 +67,7 @@ export class EdutrackService {
       weightedInterview,
       weightedTest,
       finalNote,
+      totalAdmit,
       status,
       applicant,
     });
